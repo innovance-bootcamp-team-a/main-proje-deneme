@@ -1,5 +1,5 @@
-import { Flex, Input, Text } from '@chakra-ui/react';
-import React from 'react';
+import { Flex, Input, Text, FormControl } from '@chakra-ui/react';
+import React, { useRef, useEffect, useState } from 'react';
 
 import Icon from './Icon';
 
@@ -12,6 +12,17 @@ export default function Chat({
   value,
   onChange,
 }) {
+  const dummy = useRef(null);
+
+  const [toggle, setToggle] = useState(false);
+
+  useEffect(() => {
+    if (dummy.current) {
+      dummy.current.scrollIntoView({ block: 'end', behavior: 'smooth' });
+      console.log('aasfasfasxsx');
+    }
+  }, [toggle]);
+
   return (
     <Flex
       flexDirection="column"
@@ -24,21 +35,39 @@ export default function Chat({
         <Text fontSize="title">{roomTitle}</Text>
       </Flex>
 
-      <Flex flexDir="column" h="calc(100vh - 270px)" mt="40px">
+      <Flex
+        overflowY="scroll"
+        maxHeight="100%"
+        flexDir="column"
+        h="calc(100vh - 270px)"
+        mt="40px"
+      >
         {children}
+        <div ref={dummy}></div>
       </Flex>
 
       <Flex alignItems="center">
-        <Input
-          size="md"
-          placeholder="Write a message..."
-          borderColor="purple_53"
-          boxShadow="none"
-          fontSize="body_1"
-          value={value}
-          onChange={onChange}
-        />
-        <Icon handler={handler} src={send} size="large" ml="18px" />
+        <form
+          style={{ width: '100%', display: 'flex' }}
+          onSubmit={(e) => {
+            e.preventDefault();
+            handler();
+            setToggle((prev) => !prev);
+          }}
+        >
+          <Input
+            size="md"
+            placeholder="Write a message..."
+            borderColor="purple_53"
+            boxShadow="none"
+            fontSize="body_1"
+            value={value}
+            onChange={onChange}
+          />
+          <div onClick={() => setToggle((prev) => !prev)}>
+            <Icon src={send} size="large" ml="18px" />
+          </div>
+        </form>
       </Flex>
     </Flex>
   );

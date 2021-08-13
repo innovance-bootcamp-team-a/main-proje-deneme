@@ -36,7 +36,13 @@ export default function ChatPage() {
   const [roomNames] = GetRoomNames();
 
   const createRoom = () => {
-    createRoomDatabase(username, 'Odayı oluşturdu.', _.toLower(createRoomName));
+    createRoomName.length &&
+      createRoomDatabase(
+        username,
+        'Odayı oluşturdu.',
+        _.toLower(createRoomName)
+      );
+
     setCreateRoomName('');
   };
 
@@ -57,14 +63,14 @@ export default function ChatPage() {
   const [data] = GetData(selectedRoom);
   const [userData] = GetOnlineMembersData(selectedRoom);
   const [onlineNumbers] = GetOnlineNumber(selectedRoom);
-  console.log('data***', onlineNumbers);
 
   const handleSendData = () => {
-    setDataToDatabase(username, message, selectedRoom);
+    message.length && setDataToDatabase(username, message, selectedRoom);
+
     setMessage('');
   };
 
-  UsePresence();
+  // UsePresence();
   return (
     <Flex flexDir="column">
       <TopSection />
@@ -81,7 +87,7 @@ export default function ChatPage() {
               <ListItem
                 showPeopleCount
                 title={roomName}
-                subtitle="Hasan: Nasılsın?"
+                subtitle={'12.03.2021 15:45'}
                 avatar="https://bit.ly/dan-abramov"
                 handler={() => selectRoom(id)}
                 roomName={roomName}
@@ -119,7 +125,7 @@ export default function ChatPage() {
               <ListItem
                 showAddIcon
                 title={username}
-                subtitle="Front End Developer"
+                subtitle="Kodluyoruz"
                 avatar="https://bit.ly/dan-abramov"
               />
             ))}
