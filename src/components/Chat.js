@@ -5,7 +5,13 @@ import Icon from './Icon';
 
 import send from '../icons/icons-send.png';
 
-export default function Chat({ children }) {
+export default function Chat({
+  children,
+  roomTitle,
+  handler,
+  value,
+  onChange,
+}) {
   return (
     <Flex
       flexDirection="column"
@@ -15,7 +21,7 @@ export default function Chat({ children }) {
       px="35px"
     >
       <Flex>
-        <Text fontSize="title">Teknoloji</Text>
+        <Text fontSize="title">{roomTitle}</Text>
       </Flex>
 
       <Flex flexDir="column" h="calc(100vh - 270px)" mt="40px">
@@ -29,8 +35,10 @@ export default function Chat({ children }) {
           borderColor="purple_53"
           boxShadow="none"
           fontSize="body_1"
+          value={value}
+          onChange={onChange}
         />
-        <Icon src={send} size="large" ml="18px" />
+        <Icon handler={handler} src={send} size="large" ml="18px" />
       </Flex>
     </Flex>
   );
